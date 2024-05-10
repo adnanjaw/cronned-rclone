@@ -1,6 +1,6 @@
 FROM python:3.9-slim AS google-drive-file-exporter
 
-MAINTAINER="Adnan Al Jawabra"
+LABEL maintainer="Adnan Al Jawabra"
 
 WORKDIR /app
 
