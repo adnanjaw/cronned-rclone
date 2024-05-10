@@ -3,7 +3,7 @@
 A Docker image for exporting files to Google Drive.
 
 ## Quick reference
- * Docker Hub repository [here](https://hub.docker.com/repository/docker/adnanjaw/google-drive-file-exporter/general).
+ *  [Docker Hub repository](https://hub.docker.com/repository/docker/adnanjaw/google-drive-file-exporter/general)
 
 ## Usage with Docker command
 
