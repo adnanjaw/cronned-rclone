@@ -1,8 +1,11 @@
 # Google Drive Exporter
 
-A Docker image for exporting files to Google Drive. Find the Docker Hub repository [here](https://hub.docker.com/repository/docker/adnanjaw/google-drive-file-exporter/general).
+A Docker image for exporting files to Google Drive.
 
-**Usage with Docker command:**
+## Quick reference
+ * Docker Hub repository [here](https://hub.docker.com/repository/docker/adnanjaw/google-drive-file-exporter/general).
+
+## Usage with Docker command
 
 ```bash
 docker run -d \
@@ -14,7 +17,7 @@ docker run -d \
     adnanjaw/google-drive-file-exporter:latest
 ```
 
-**Usage in Docker Compose:**
+## Usage in Docker Compose:
 
 ```yaml
 google-drive-file-exporter:
