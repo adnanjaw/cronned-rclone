@@ -1,0 +1,64 @@
+version: '3'
+
+includes:
+  secrets: ./.tasks/secrets
+
+env:
+  UID:
+    sh: id -u
+  GID:
+    sh: id -g
+  JQ: docker run --rm -i ghcr.io/jqlang/jq:1.7
+
+tasks:
+  default:
+    cmds:
+      - task --list
+
+  up:
+    desc: Up services
+    cmds:
+      - docker compose up -d --build --remove-orphans --wait
+
+  down:
+    desc: Down services
+    cmds:
+      - docker compose down --remove-orphans
+
+  start:
+    desc: Start services
+    cmds:
+      - docker compose start {{.CLI_ARGS}}
+
+  stop:
+    desc: Stop services
+    cmds:
+      - docker compose stop {{.CLI_ARGS}}
+
+  pull:
+    desc: Pull latest images
+    cmds:
+      - docker compose pull {{.CLI_ARGS}}
+
+  build-push:
+    desc: Build & push Docker image
+    vars:
+      IMAGE: '{{.image | default "adnanjaw/google-drive-file-exporter"}}'
+      TAG: '{{.t | default "latest"}}'
+    cmds:
+      - docker login
+      - docker build --pull --no-cache -t {{.IMAGE}} .
+      - docker run {{.IMAGE}}
+      - docker image tag {{.IMAGE}} {{.IMAGE}}:{{.TAG}}
+      - docker push {{.IMAGE}}:{{.TAG}}
+      - printf "\033[32m%s\033[0m\n" "Built and pushed image '{{.IMAGE}}:{{.TAG}}'"
+
+  recreate:
+    desc: Force recreate
+    cmds:
+      - docker compose up {{.CLI_ARGS}} -d --build --force-recreate --remove-orphans --wait
+
+  logs:
+    desc: Show logs
+    cmds:
+      - docker compose logs -ft {{.CLI_ARGS}}
