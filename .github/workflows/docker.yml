@@ -9,7 +9,6 @@ env:
   BWS_DOCKERHUB_USERNAME: ebf9ede7-b7eb-422f-a590-b16c014a70a3
   BWS_DOCKERHUB_TOKEN: 0fa21e12-63ae-4793-a9a5-b16c014aa15d
   DOCKER_IMAGE_NAME: adnanjaw/google-drive-file-exporter
-  SUPPORTED_PLATFORMS: 'linux/amd64, linux/arm64, linux/arm/v7'
   LATEST_TAG: latest
   TEST_TAG: test
 
@@ -45,7 +44,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          platforms: ${{ env.SUPPORTED_PLATFORMS }}
+          platforms: linux/amd64, linux/arm64, linux/arm/v7
           load: true
           tags: '${{ env.DOCKER_IMAGE_NAME }}:${{ env.TEST_TAG }}'
       - name: Test docker image before push
@@ -56,7 +55,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          platforms: ${{ env.SUPPORTED_PLATFORMS }}
+          platforms: linux/amd64, linux/arm64, linux/arm/v7
           push: true
           tags: '${{ env.DOCKER_IMAGE_NAME }}:${{ env.LATEST_TAG }}'
       -
@@ -65,6 +64,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          platforms: ${{ env.SUPPORTED_PLATFORMS }}
+          platforms: linux/amd64, linux/arm64, linux/arm/v7
           push: true
           tags: '${{ env.DOCKER_IMAGE_NAME }}:${{ github.ref_name }}'
