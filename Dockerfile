@@ -4,6 +4,7 @@ LABEL maintainer="Adnan Al Jawabra"
 
 WORKDIR /app
 
-RUN pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib python-dotenv
+COPY . /app
 
-COPY google-drive-file-exporter.py /app/google-drive-file-exporter.py
+RUN pip install -r requirements.txt
+

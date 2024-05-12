@@ -1,14 +1,10 @@
 version: '3'
 
-includes:
-  secrets: ./.tasks/secrets
-
 env:
   UID:
     sh: id -u
   GID:
     sh: id -g
-  JQ: docker run --rm -i ghcr.io/jqlang/jq:1.7
 
 tasks:
   default:
