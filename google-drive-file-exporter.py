@@ -72,7 +72,7 @@ try:
 
 except FileNotFoundError as e:
     print(f"Service account credentials file not found: {e}", flush=True)
-    sys.exit(0)
+    sys.exit(1)
 except ValueError as e:
     print(e, flush=True)
     sys.exit(1)
