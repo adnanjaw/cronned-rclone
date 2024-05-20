@@ -49,7 +49,7 @@ jobs:
           tags: '${{ env.DOCKER_IMAGE_NAME }}:${{ env.TEST_TAG }}'
       - name: Test docker image before push
         run: |
-          docker run --rm '${{ env.DOCKER_IMAGE_NAME }}:${{ env.TEST_TAG }}'
+          docker run --rm -e CRON_EXPRESSION='* * * * *' '${{ env.DOCKER_IMAGE_NAME }}:${{ env.TEST_TAG }}'
       - name: Build and push latest
         if: success()
         uses: docker/build-push-action@v5
