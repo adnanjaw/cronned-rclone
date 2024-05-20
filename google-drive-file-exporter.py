@@ -72,9 +72,14 @@ try:
 
 except FileNotFoundError as e:
     print(f"Service account credentials file not found: {e}", flush=True)
+    sys.exit(0)
 except ValueError as e:
     print(e, flush=True)
+    sys.exit(1)
 except HttpError as e:
     print(f"An HTTP error occurred: {e}", flush=True)
+    sys.exit(1)
 except Exception as e:
     print(f"An error occurred: {e}", flush=True)
+    sys.exit(1)
+
