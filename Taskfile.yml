@@ -12,29 +12,31 @@ tasks:
       - task --list
 
   up:
-    desc: Up services
+    desc: Start and build services
     cmds:
-      - docker compose up -d --build --remove-orphans --wait
+      - docker build -t {{.IMAGE}} .
+      - docker run -d --name {{.CONTAINER_NAME}} {{.IMAGE}}
 
   down:
-    desc: Down services
+    desc: Stop and remove services
     cmds:
-      - docker compose down --remove-orphans
+      - docker stop {{.CONTAINER_NAME}}
+      - docker rm {{.CONTAINER_NAME}}
 
   start:
     desc: Start services
     cmds:
-      - docker compose start {{.CLI_ARGS}}
+      - docker start {{.CLI_ARGS}}
 
   stop:
     desc: Stop services
     cmds:
-      - docker compose stop {{.CLI_ARGS}}
+      - docker stop {{.CLI_ARGS}}
 
   pull:
     desc: Pull latest images
     cmds:
-      - docker compose pull {{.CLI_ARGS}}
+      - docker pull {{.IMAGE}}
 
   build-push:
     desc: Build & push Docker image
@@ -50,11 +52,14 @@ tasks:
       - printf "\033[32m%s\033[0m\n" "Built and pushed image '{{.IMAGE}}:{{.TAG}}'"
 
   recreate:
-    desc: Force recreate
+    desc: Force recreate services
     cmds:
-      - docker compose up {{.CLI_ARGS}} -d --build --force-recreate --remove-orphans --wait
+      - docker stop {{.CONTAINER_NAME}}
+      - docker rm {{.CONTAINER_NAME}}
+      - docker build -t {{.IMAGE}} .
+      - docker run -d --name {{.CONTAINER_NAME}} {{.IMAGE}}
 
   logs:
     desc: Show logs
     cmds:
-      - docker compose logs -ft {{.CLI_ARGS}}
+      - docker logs -f {{.CONTAINER_NAME}}
