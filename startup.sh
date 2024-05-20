@@ -32,7 +32,7 @@ if ! validate_cron "$CRON_EXPRESSION"; then
 fi
 
 # Create a cron job file
-echo "$CRON_EXPRESSION /usr/local/bin/python /app/google-drive-file-exporter.py >> /var/log/cron.log 2>&1" > /etc/cron.d/google_exporter_cron_tab
+echo "$CRON_EXPRESSION /usr/bin/env GOOGLE_FOLDER_ID=$GOOGLE_FOLDER_ID KEEP_CONTAINER_RUNNING=$KEEP_CONTAINER_RUNNING /usr/local/bin/python /app/google-drive-file-exporter.py >> /var/log/cron.log 2>&1" > /etc/cron.d/google_exporter_cron_tab
 
 # Apply the cron job file
 crontab /etc/cron.d/google_exporter_cron_tab
