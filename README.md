@@ -1,4 +1,4 @@
-# Cronjobbed Rclone with JSON Configuration
+# Cronjobbed Rclone
 
 This project provides a Docker container that uses Rclone and cron jobs for automated tasks, all configured through a simple JSON file. The container includes a built-in cron service that is managed by a `startup.sh` script.
 
