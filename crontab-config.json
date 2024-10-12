@@ -1,0 +1,12 @@
+{
+  "cron_jobs": [
+    {
+      "schedule": "1/1 * * * *",
+      "task": "echo i love you"
+    },
+    {
+      "schedule": "* * * * *",
+      "task": "echo i work very wel..."
+    }
+  ]
+}

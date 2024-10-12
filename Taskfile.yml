@@ -37,19 +37,10 @@ tasks:
     desc: Pull latest images
     cmds:
       - docker pull {{.IMAGE}}
-
-  build-push:
-    desc: Build & push Docker image
-    vars:
-      IMAGE: '{{.image | default "adnanjaw/google-drive-file-exporter"}}'
-      TAG: '{{.t | default "latest"}}'
+  show:
+    desc: Show all running docker compose services
     cmds:
-      - docker login
-      - docker build --pull --no-cache -t {{.IMAGE}} .
-      - docker run {{.IMAGE}}
-      - docker image tag {{.IMAGE}} {{.IMAGE}}:{{.TAG}}
-      - docker push {{.IMAGE}}:{{.TAG}}
-      - printf "\033[32m%s\033[0m\n" "Built and pushed image '{{.IMAGE}}:{{.TAG}}'"
+      - docker compose ps
 
   recreate:
     desc: Force recreate services
@@ -63,3 +54,16 @@ tasks:
     desc: Show logs
     cmds:
       - docker logs -f {{.CONTAINER_NAME}}
+
+  build-push:
+    desc: Build & push Docker image
+    vars:
+      IMAGE: '{{.image | default "adnanjaw/cronjobbed-rclone"}}'
+      TAG: '{{.t | default "latest"}}'
+    cmds:
+      - docker login
+      - docker build --pull --no-cache -t {{.IMAGE}} .
+      - docker run {{.IMAGE}}
+      - docker image tag {{.IMAGE}} {{.IMAGE}}:{{.TAG}}
+      - docker push {{.IMAGE}}:{{.TAG}}
+      - printf "\033[32m%s\033[0m\n" "Built and pushed image '{{.IMAGE}}:{{.TAG}}'"

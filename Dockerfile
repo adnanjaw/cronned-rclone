@@ -1,22 +1,25 @@
-FROM python:3.9-slim AS google-drive-file-exporter
+# Stage 1: Build Rclone
+FROM rclone/rclone:latest AS rclone
 
-LABEL maintainer="Adnan Al Jawabra"
+# Stage 2: Create final image.
+FROM alpine:3.16
 
-WORKDIR /app
+LABEL maintainer="github.com/adnanjaw"
 
-COPY . /app
+# Install cron and jq.
+RUN apk add --no-cache bash curl jq
 
-RUN chmod +x /app/google-drive-file-exporter.py
+# Copy Rclone binary and configuration from the first stage.
+COPY --from=rclone /usr/local/bin/rclone /usr/local/bin/rclone
 
-# Install dependencies
-RUN pip install -r requirements.txt
+# Copy the crontab-config.json configuration file to the container.
+COPY ./crontab-config.json /config/crontab-config.json
 
-# Install cron
-RUN apt-get update && apt-get install -y cron
+# Copy the startup.sh script to the container.
+COPY ./startup.sh /startup.sh
 
-# Copy the startup script
-COPY startup.sh /usr/local/bin/startup.sh
-RUN chmod +x /usr/local/bin/startup.sh
+# Ensure the startup script is executable.
+RUN chmod +x /startup.sh
 
-# Run the startup script to set up cron and keep the container running
-CMD ["/usr/local/bin/startup.sh"]
+# Start the cron jobs using the startup.sh script
+CMD ["/startup.sh"]

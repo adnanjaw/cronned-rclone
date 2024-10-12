@@ -1,0 +1,12 @@
+{
+  "cron_jobs": [
+    {
+      "schedule": "0 0 * * *",
+      "task": "rclone sync /local/path1 remote:/remote/path1 --config /config/rclone/rclone.conf"
+    },
+    {
+      "schedule": "0 12 * * *",
+      "task": "rclone copy /local/path2 remote:/remote/path2 --config /config/rclone/rclone.conf"
+    }
+  ]
+}
