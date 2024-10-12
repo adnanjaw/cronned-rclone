@@ -1,68 +1,140 @@
-# Google Drive Exporter
+# Cronjobbed Rclone with JSON Configuration
 
-A Docker image for exporting files to Google Drive.
+This project provides a Docker container that uses Rclone and cron jobs for automated tasks, all configured through a simple JSON file. The container includes a built-in cron service that is managed by a `startup.sh` script.
 
-## Quick reference
- *  [Docker Hub repository](https://hub.docker.com/repository/docker/adnanjaw/google-drive-file-exporter/general)
+## Features
+- **Rclone** for cloud storage sync and management.
+- **Cron jobs** are dynamically set up from a JSON configuration file (`crontab-config.json`).
+- Logs are stored within the container and can be exposed for easy monitoring.
+- Easily configurable with Docker and Docker Compose.
 
-## Usage with Docker command
+## How to Use
+
+### Prerequisites
+Make sure you have Docker installed on your system. You can install it from [here](https://docs.docker.com/get-docker/).
+
+### 1. Pull the Docker Image
+
+You can build or pull the Docker image as follows:
+
+#### Build the image locally:
 
 ```bash
+docker build -t cronjobbed-rclone .
+
+Pull from Docker Hub (if available):
+
+docker pull yourusername/cronjobbed-rclone:latest
+
+2. Configuration
+
+Before running the container, you need to provide a JSON file (crontab-config.json) that defines the cron jobs you want to run. This file must be mounted into the container for the cron service to read and execute jobs.
+
+Example crontab-config.json:
+
+{
+  "cron_jobs": [
+    {
+      "schedule": "* * * * *",
+      "task": "echo 'Task 1 running!'"
+    },
+    {
+      "schedule": "0 0 * * *",
+      "task": "rclone sync /local/path remote:path"
+    }
+  ]
+}
+
+	•	schedule: Defines the cron schedule using standard cron syntax.
+	•	task: The command to be executed at the specified schedule. This can be an Rclone command or any shell command.
+
+3. Run the Container
+
+Basic docker run Command
+
+You can run the container with the following docker run command:
+
 docker run -d \
-    --name google-drive-file-exporter \
-    -e GOOGLE_FOLDER_ID="1dyUEebJaFnWa3Z4n0BFMVAXQ" \
-    -e KEEP_CONTAINER_RUNNING=true \
-    -v $(pwd)/files:/archive \
-    -v $(pwd)/service-account-credentials.json:/service-account-credentials.json:ro \
-    adnanjaw/google-drive-file-exporter:latest
-```
+    --name cronjobbed-rclone \
+    -v /path/to/local/crontab-config.json:/config/crontab-config.json \
+    -v /path/to/local/your-files:/data \
+    cronjobbed-rclone
 
-## Usage in Docker Compose:
+	•	-v /path/to/local/crontab-config.json:/config/crontab-config.json: Mounts the JSON file into the container.
+	•	-v /path/to/local/your-files:/data: Mounts your local data directory into the container for Rclone to access.
 
-```yaml
-google-drive-file-exporter:
-   image: adnanjaw/google-drive-file-exporter:latest
-   container_name: google-drive-file-exporter
-   environment:
-      GOOGLE_FOLDER_ID: "1dyUEebJaFnWa3Z4n0BFMVAXQ"
-      KEEP_CONTAINER_RUNNING: true
-   restart: unless-stopped
-   volumes:
-      - ./files:/archive
-      - ./service-account-credentials.json:/service-account-credentials.json:ro
-```
+Logs and Debugging
 
-Ensure that you mount the service account credentials file (service-account-credentials.json) as read-only (:ro) to maintain security.
+Logs are stored in /var/log/cron.log inside the container. You can check the logs using:
 
----
+docker logs cronjobbed-rclone
 
-## Development
+If you need to enter the running container:
 
-### Installation
+docker exec -it cronjobbed-rclone /bin/bash
 
-Before you begin, make sure you have the following prerequisites:
+4. Using Docker Compose
 
-- Docker (for local development)
-- Docker compose (for local development)
-- Taskfile.dev (optional)
+For a more streamlined setup, you can use Docker Compose to manage your container.
 
-Follow these steps to set up your development environment:
+Create a docker-compose.yml file as follows:
 
-1. **Clone this Repository**:
+version: '3.7'
 
-   ```bash
-   git clone git@github.com:adnanjaw/google-drive-file-exporter.git google-drive-exporter
-   cd google-drive-exporter
-   ```
+services:
+  cronjobbed-rclone:
+    image: cronjobbed-rclone
+    container_name: cronjobbed-rclone
+    volumes:
+      - ./crontab-config.json:/config/crontab-config.json
+      - ./your-data:/data
+    restart: always
 
-2. **Create secrets**:
+Start the Service
 
-   1. `cp .env.example .env`
-   2. Create a Google service account and generate a key in JSON format.
-   3. `touch service-account-credentials.json` and paste the JSON key into the created file.
+To start the service with Docker Compose, simply run:
 
-3. **Start Docker Containers and Initialize the Application**:
+docker-compose up -d
 
-   ```bash
-   task up
-   ```
+This will run the container in detached mode (-d), and it will automatically restart in case of failure (restart: always).
+
+5. Directory Structure Example
+
+Here’s an example of how your project directory could be structured:
+
+├── Dockerfile
+├── docker-compose.yml
+├── crontab-config.json
+└── your-data/
+    └── (Files to be synced by Rclone)
+
+6. Stopping and Removing the Container
+
+To stop and remove the container when it is no longer needed, use:
+
+docker stop cronjobbed-rclone
+docker rm cronjobbed-rclone
+
+If using Docker Compose, you can shut it down using:
+
+docker-compose down
+
+7. Troubleshooting
+
+If the container stops immediately after running:
+
+	•	Ensure the crontab-config.json file is mounted correctly.
+	•	Check the logs for any errors using docker logs cronjobbed-rclone.
+
+If the cron jobs are not running:
+
+	•	Validate the cron job syntax in the JSON configuration file.
+	•	Make sure the correct volume paths are mounted for data access and configuration.
+
+Contributions
+
+Feel free to open issues or contribute by submitting a pull request on the GitHub repository.
+
+License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
