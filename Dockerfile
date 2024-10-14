@@ -6,19 +6,16 @@ FROM alpine:3.16
 
 LABEL maintainer="github.com/adnanjaw"
 
-# Install cron and jq.
-RUN apk add --no-cache bash curl jq
+# Install cron, jq (for JSON), yq (for YAML), and bash
+RUN apk add --no-cache bash curl jq yq
 
-# Copy Rclone binary and configuration from the first stage.
+# Copy Rclone binary from the first stage
 COPY --from=rclone /usr/local/bin/rclone /usr/local/bin/rclone
 
-# Copy the crontab-config.json configuration file to the container.
-COPY ./crontab-config.json /config/crontab-config.json
-
-# Copy the startup.sh script to the container.
+# Copy the startup.sh script to the container
 COPY ./startup.sh /startup.sh
 
-# Ensure the startup script is executable.
+# Ensure the startup script is executable
 RUN chmod +x /startup.sh
 
 # Start the cron jobs using the startup.sh script

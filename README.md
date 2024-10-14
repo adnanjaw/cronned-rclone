@@ -1,158 +1,168 @@
-# Cronjobbed Rclone
 
-This project provides a Docker container that uses Rclone and cron jobs for automated tasks, all configured through a simple JSON file. The container includes a built-in cron service that is managed by a `startup.sh` script.
+# cronjobbed-rclone
+
+`cronjobbed-rclone` is a lightweight containerized tool that wraps [Rclone](https://rclone.org/) with cron jobs. It allows users to schedule Rclone commands using cron jobs defined in a JSON or YAML configuration file. Users can keep using Rclone commands and refer to its documentation while managing schedules through a simple configuration.
 
 ## Features
-- **Rclone** for cloud storage sync and management.
-- **Cron jobs** are dynamically set up from a JSON configuration file (`crontab-config.json`).
-- Logs are stored within the container and can be exposed for easy monitoring.
-- Easily configurable with Docker and Docker Compose.
+- Uses Rclone for powerful cloud storage operations like sync, copy, move, etc.
+- Schedules Rclone operations using cron jobs.
+- Supports both JSON and YAML configuration files.
+- Allows flexible scheduling with customizable cron expressions.
 
-## How to Use
+---
 
-### Prerequisites
-Make sure you have Docker installed on your system. You can install it from [here](https://docs.docker.com/get-docker/).
+## Prerequisites
+- [Docker](https://docs.docker.com/get-docker/) installed on your system.
+- A basic understanding of [Rclone](https://rclone.org/) and cron job scheduling.
 
-### 1. Pull the Docker Image
+---
 
-You can build or pull the Docker image as follows:
+## Usage
 
-#### Build the image locally:
+### 1. Create a Configuration File
+You can use either a JSON or YAML configuration file to define your cron jobs.
 
-```bash
-docker build -t cronjobbed-rclone .
-```
-
-#### Pull from Docker Hub (if available):
-
-```bash
-docker pull yourusername/cronjobbed-rclone:latest
-```
-
-### 2. Configuration
-
-Before running the container, you need to provide a JSON file (`crontab-config.json`) that defines the cron jobs you want to run. This file must be mounted into the container for the cron service to read and execute jobs.
-
-**Example `crontab-config.json`:**
+#### JSON Example (`crontab-config.json`):
 ```json
 {
-  "cron_jobs": [
+  "cronjobs": [
     {
-      "schedule": "* * * * *",
-      "task": "echo 'Task 1 running!'"
+      "schedule": "0 2 * * *",
+      "command": "rclone sync /local/directory remote:backup",
+      "log_file": "/var/log/rclone_backup.log"
     },
     {
-      "schedule": "0 0 * * *",
-      "task": "rclone sync /local/path remote:path"
+      "schedule": "30 3 * * *",
+      "command": "rclone copy /local/photos remote:photos-backup",
+      "log_file": "/var/log/rclone_photos.log"
     }
   ]
 }
 ```
 
-- `schedule`: Defines the cron schedule using standard cron syntax.
-- `task`: The command to be executed at the specified schedule. This can be an Rclone command or any shell command.
-
-### 3. Run the Container
-
-#### Basic `docker run` Command
-
-You can run the container with the following `docker run` command:
-
-```bash
-docker run -d \
-    --name cronjobbed-rclone \
-    -v /path/to/local/crontab-config.json:/config/crontab-config.json \
-    -v /path/to/local/your-files:/data \
-    cronjobbed-rclone
-```
-
-- `-v /path/to/local/crontab-config.json:/config/crontab-config.json`: Mounts the JSON file into the container.
-- `-v /path/to/local/your-files:/data`: Mounts your local data directory into the container for Rclone to access.
-
-#### Logs and Debugging
-
-Logs are stored in `/var/log/cron.log` inside the container. You can check the logs using:
-
-```bash
-docker logs cronjobbed-rclone
-```
-
-If you need to enter the running container:
-
-```bash
-docker exec -it cronjobbed-rclone /bin/bash
-```
-
-### 4. Using Docker Compose
-
-For a more streamlined setup, you can use Docker Compose to manage your container.
-
-Create a `docker-compose.yml` file as follows:
-
+#### YAML Example (`crontab-config.yml`):
 ```yaml
-version: '3.7'
+cronjobs:
+  - schedule: "0 2 * * *"
+    command: "rclone sync /local/directory remote:backup"
+    log_file: "/var/log/rclone_backup.log"
 
-services:
-  cronjobbed-rclone:
-    image: cronjobbed-rclone
-    container_name: cronjobbed-rclone
-    volumes:
-      - ./crontab-config.json:/config/crontab-config.json
-      - ./your-data:/data
-    restart: always
+  - schedule: "30 3 * * *"
+    command: "rclone copy /local/photos remote:photos-backup"
+    log_file: "/var/log/rclone_photos.log"
 ```
 
-#### Start the Service
+- **schedule**: The cron schedule expression.
+- **command**: The Rclone command to run (sync, copy, etc.).
+- **log_file**: Path to the log file where the command's output will be logged.
 
-To start the service with Docker Compose, simply run:
+### 2. Run the Container
+Once your configuration file is ready, you can run the `cronjobbed-rclone` Docker container. Be sure to mount your configuration file to the `/config/` directory inside the container.
 
+#### Run with JSON:
 ```bash
-docker-compose up -d
+docker run -v /path/to/your/crontab-config.json:/config/crontab-config.json cronjobbed-rclone
 ```
 
-This will run the container in detached mode (`-d`), and it will automatically restart in case of failure (`restart: always`).
-
-### 5. Directory Structure Example
-
-Here’s an example of how your project directory could be structured:
-
-```plaintext
-├── Dockerfile
-├── docker-compose.yml
-├── crontab-config.json
-└── your-data/
-    └── (Files to be synced by Rclone)
-```
-
-### 6. Stopping and Removing the Container
-
-To stop and remove the container when it is no longer needed, use:
-
+#### Run with YAML:
 ```bash
-docker stop cronjobbed-rclone
-docker rm cronjobbed-rclone
+docker run -v /path/to/your/crontab-config.yml:/config/crontab-config.yml cronjobbed-rclone
 ```
 
-If using Docker Compose, you can shut it down using:
+### 3. Verify Cron Jobs
+The cron jobs will run according to the schedule specified in your configuration file. Logs will be saved in the respective log files you specify in the configuration.
 
-```bash
-docker-compose down
+---
+
+## Cron Job Scheduling
+
+The cron schedule format follows the typical syntax:
+
+```
+* * * * * <command>
+| | | | |
+| | | | ----- Day of the week (0 - 7) (Sunday is both 0 and 7)
+| | | ------- Month (1 - 12)
+| | --------- Day of the month (1 - 31)
+| ----------- Hour (0 - 23)
+------------- Minute (0 - 59)
 ```
 
-### 7. Troubleshooting
+For example:
+- `0 2 * * *` means "every day at 2:00 AM."
+- `30 3 * * *` means "every day at 3:30 AM."
 
-If the container stops immediately after running:
-- Ensure the `crontab-config.json` file is mounted correctly.
-- Check the logs for any errors using `docker logs cronjobbed-rclone`.
+You can use [crontab.guru](https://crontab.guru/) to easily create and validate cron expressions.
 
-If the cron jobs are not running:
-- Validate the cron job syntax in the JSON configuration file.
-- Make sure the correct volume paths are mounted for data access and configuration.
+---
 
-## Contributions
+## Logs
+Logs for each Rclone command will be saved in the files specified under `log_file` in your configuration file. Ensure the paths you provide for log files exist in the container and are writable.
 
-Feel free to open issues or contribute by submitting a pull request on the [GitHub repository](https://github.com/adnanjaw).
+---
+
+## Example Commands
+
+- **Sync directory to remote backup**:
+  ```bash
+  rclone sync /local/directory remote:backup
+  ```
+
+- **Copy files to remote backup**:
+  ```bash
+  rclone copy /local/photos remote:photos-backup
+  ```
+
+Refer to the [Rclone Documentation](https://rclone.org/docs/) for more command examples.
+
+---
+
+## Building the Image Locally
+
+If you want to modify the Docker image or build it locally:
+
+1. Clone this repository:
+   ```bash
+   git clone git@github.com:adnanjaw/cronjobbed-rclone.git
+   ```
+
+2. Build the Docker image:
+    ```text
+    hint: make user of Taskfile.yml
+    ```
+    ```bash
+    task up
+    ```
+
+3. Run the container:
+   ```bash
+   task up -- -v /path/to/your/crontab-config.json:/config/crontab-config.json
+   ```
+---
+
+## Contributing
+
+If you want to contribute to the project:
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature-branch`).
+3. Make your changes.
+4. Commit your changes (`git commit -m 'Add new feature'`).
+5. Push to the branch (`git push origin feature-branch`).
+6. Open a pull request.
+
+```text
+hint: make user of Taskfile.yml
+```
+---
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+---
+
+## Credits
+
+- [Rclone](https://rclone.org/) for the amazing tool to manage cloud storage.
+- Docker and Alpine for lightweight containerization.

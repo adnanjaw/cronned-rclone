@@ -1,12 +1,14 @@
 {
-  "cron_jobs": [
+  "cronjobs": [
     {
-      "schedule": "0 0 * * *",
-      "task": "rclone sync /local/path1 remote:/remote/path1 --config /config/rclone/rclone.conf"
+      "schedule": "0 2 * * *",
+      "command": "rclone sync /local/directory remote:backup",
+      "log_file": "/var/log/rclone_backup.log"
     },
     {
-      "schedule": "0 12 * * *",
-      "task": "rclone copy /local/path2 remote:/remote/path2 --config /config/rclone/rclone.conf"
+      "schedule": "30 3 * * *",
+      "command": "rclone copy /local/photos remote:photos-backup",
+      "log_file": "/var/log/rclone_photos.log"
     }
   ]
 }

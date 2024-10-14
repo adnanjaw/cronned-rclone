@@ -1,0 +1,8 @@
+cronjobs:
+  - schedule: "0 2 * * *"
+    command: "rclone sync /local/directory remote:backup"
+    log_file: "/var/log/rclone_backup.log"
+
+  - schedule: "30 3 * * *"
+    command: "rclone copy /local/photos remote:photos-backup"
+    log_file: "/var/log/rclone_photos.log"

@@ -13,12 +13,17 @@ tasks:
 
   up:
     desc: Start and build services
+    vars:
+      IMAGE: '{{.image | default "cronjobbed-rclone"}}'
+      CONTAINER_NAME: '{{.container | default "cronjobbed-rclone"}}'
     cmds:
       - docker build -t {{.IMAGE}} .
       - docker run -d --name {{.CONTAINER_NAME}} {{.IMAGE}}
 
   down:
     desc: Stop and remove services
+    vars:
+      CONTAINER_NAME: '{{.container | default "cronjobbed-rclone"}}'
     cmds:
       - docker stop {{.CONTAINER_NAME}}
       - docker rm {{.CONTAINER_NAME}}
@@ -37,10 +42,11 @@ tasks:
     desc: Pull latest images
     cmds:
       - docker pull {{.IMAGE}}
+
   show:
     desc: Show all running docker compose services
     cmds:
-      - docker compose ps
+      - docker ps
 
   recreate:
     desc: Force recreate services
