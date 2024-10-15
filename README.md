@@ -1,7 +1,7 @@
 
-# cronjobbed-rclone
+# Croned-rclone
 
-`cronjobbed-rclone` is a lightweight containerized tool that wraps [Rclone](https://rclone.org/) with cron jobs. It allows users to schedule Rclone commands using cron jobs defined in a JSON or YAML configuration file. Users can keep using Rclone commands and refer to its documentation while managing schedules through a simple configuration.
+`croned-rclone` is a lightweight containerized tool that wraps [Rclone](https://rclone.org/) with cron jobs. It allows users to schedule Rclone commands using cron jobs defined in a JSON or YAML configuration file. Users can keep using Rclone commands and refer to its documentation while managing schedules through a simple configuration.
 
 ## Features
 - Uses Rclone for powerful cloud storage operations like sync, copy, move, etc.
@@ -57,16 +57,16 @@ cronjobs:
 - **log_file**: Path to the log file where the command's output will be logged.
 
 ### 2. Run the Container
-Once your configuration file is ready, you can run the `cronjobbed-rclone` Docker container. Be sure to mount your configuration file to the `/config/` directory inside the container.
+Once your configuration file is ready, you can run the `croned-rclone` Docker container. Be sure to mount your configuration file to the `/config/` directory inside the container.
 
 #### Run with JSON:
 ```bash
-docker run -v /path/to/your/crontab-config.json:/config/crontab-config.json cronjobbed-rclone
+docker run -v /path/to/your/crontab-config.json:/config/crontab-config.json croned-rclone
 ```
 
 #### Run with YAML:
 ```bash
-docker run -v /path/to/your/crontab-config.yml:/config/crontab-config.yml cronjobbed-rclone
+docker run -v /path/to/your/crontab-config.yml:/config/crontab-config.yml croned-rclone
 ```
 
 ### 3. Verify Cron Jobs
@@ -123,7 +123,7 @@ If you want to modify the Docker image or build it locally:
 
 1. Clone this repository:
    ```bash
-   git clone git@github.com:adnanjaw/cronjobbed-rclone.git
+   git clone git@github.com:adnanjaw/croned-rclone.git
    ```
 
 2. Build the Docker image:
