@@ -1,7 +1,7 @@
 
 # Croned-rclone
 
-`croned-rclone` is a lightweight containerized tool that wraps [Rclone](https://rclone.org/) with cron jobs. It allows users to schedule Rclone commands using cron jobs defined in a JSON or YAML configuration file. Users can keep using Rclone commands and refer to its documentation while managing schedules through a simple configuration.
+Is a lightweight containerized tool that wraps [Rclone](https://rclone.org/) with cron jobs. It allows users to schedule Rclone commands using cron jobs defined in a JSON or YAML configuration file. Users can keep using Rclone commands and refer to its documentation while managing schedules through a simple configuration.
 
 ## Features
 - Uses Rclone for powerful cloud storage operations like sync, copy, move, etc.
