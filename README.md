@@ -1,8 +1,7 @@
 # Croned-rclone
 
-A lightweight container tool that wraps Rclone with cron jobs.
-Schedule Rclone commands using a simple JSON or YAML configuration file while still using all standard Rclone commands
-and documentation.
+A lightweight container tool that wraps Rclone with cron jobs.  
+Schedule Rclone commands using a simple JSON or YAML configuration file while still using all standard Rclone commands and documentation.
 
 ## Features
 
@@ -24,8 +23,7 @@ and documentation.
 
 ### 1. Create a Configuration File
 
-Define your cron jobs using either a JSON or YAML config file. You can name it whatever you want, but make sure to mount
-it to `/config/crontab-config.(json|yml)`. See .dist files in the repository for more details.
+Define your cron jobs using either a JSON or YAML config file. You can name it whatever you want, but make sure to mount it to `/config/crontab-config.(json|yml)`. See the `.dist` files in the repository for more details.
 
 #### JSON Example:
 
@@ -60,51 +58,50 @@ cronjobs:
 ```
 
 - **schedule**: Cron expression for scheduling.
-- **command**: Rclone command (sync, copy, echo etc.).
+- **command**: Rclone command (sync, copy, etc.).
 - **log_file**: Log file path for output.
 
 ### 2. Run the Container
 
-After preparing your configuration file, run the `croned-rclone` Docker container. Ensure your config file is mounted to
-the `/config/` directory inside the container.
+After preparing your configuration file, run the `croned-rclone` Docker container. Ensure your config file is mounted to the `/config/` directory inside the container.
 
 #### Run with JSON:
 ```bash
-docker run --name croned-rclone \ 
+docker run --name croned-rclone \
   -v /path/to/your/crontab-config.json:/config/crontab-config.json \
-  -v /path/to/your/rclone/config:/config/rclone
-  -v /path/to/your/rclone/logs:/logs
-  -v /path/to/your/rclone/data:/data
+  -v /path/to/your/rclone/config:/config/rclone \
+  -v /path/to/your/rclone/logs:/logs \
+  -v /path/to/your/rclone/data:/data \
   adnanjaw/croned-rclone:latest
 ```
 
 #### Run with YAML:
-
 ```bash
-docker run --name croned-rclone \ 
+docker run --name croned-rclone \
   -v /path/to/your/crontab-config.yml:/config/crontab-config.yml \
-  -v /path/to/your/rclone/config:/config/rclone
-  -v /path/to/your/rclone/logs:/logs
-  -v /path/to/your/rclone/data:/data
+  -v /path/to/your/rclone/config:/config/rclone \
+  -v /path/to/your/rclone/logs:/logs \
+  -v /path/to/your/rclone/data:/data \
   adnanjaw/croned-rclone:latest
 ```
-#### Run with Docker compose:
-```bash
+
+#### Run with Docker Compose:
+```yaml
 version: '3.9'
 services:
-    croned-rclone:
-        image: 'adnanjaw/croned-rclone:latest'
-        volumes:
-            - '/path/to/your/rclone/data:/data'
-            - '/path/to/your/rclone/logs:/logs'
-            - '/path/to/your/rclone/config:/config/rclone'
-            - '/path/to/your/crontab-config.json:/config/crontab-config.json'
-        container_name: croned-rclone
+  croned-rclone:
+    image: 'adnanjaw/croned-rclone:latest'
+    volumes:
+      - '/path/to/your/rclone/data:/data'
+      - '/path/to/your/rclone/logs:/logs'
+      - '/path/to/your/rclone/config:/config/rclone'
+      - '/path/to/your/crontab-config.json:/config/crontab-config.json'
+    container_name: croned-rclone
 ```
+
 ### 3. Verify Cron Jobs
 
-The cron jobs will run according to the schedule specified in your configuration file. Logs will be saved in the
-respective log files you specify in the configuration.
+The cron jobs will run according to the schedule specified in your configuration file. Logs will be saved in the respective log files you specify in the configuration.
 
 ---
 
@@ -133,8 +130,7 @@ You can use [crontab.guru](https://crontab.guru/) to easily create and validate 
 
 ## Logs
 
-Logs for each Rclone command will be saved in the files specified under `log_file` in your configuration file. Ensure
-the paths you provide for log files exist in the container and are writable.
+Logs for each Rclone command will be saved in the files specified under `log_file` in your configuration file. Ensure the paths you provide for log files exist in the container and are writable.
 
 ---
 
@@ -164,13 +160,14 @@ If you want to modify the Docker image or build it locally:
    ```
 
 2. Build and run the Docker image:
-    ```text
-    hint: make user of Taskfile.yml
-    ```
+   ```text
+   hint: make use of Taskfile.yml
+   ```
 
    ```bash
    task up -- -v /path/to/your/crontab-config.json:/config/crontab-config.json
    ```
+
 ---
 
 ## Contributing
@@ -185,7 +182,7 @@ If you want to contribute to the project:
 6. Open a pull request.
 
 ```text
-hint: make user of Taskfile.yml
+hint: make use of Taskfile.yml
 ```
 
 ---
