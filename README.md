@@ -126,15 +126,11 @@ If you want to modify the Docker image or build it locally:
    git clone git@github.com:adnanjaw/croned-rclone.git
    ```
 
-2. Build the Docker image:
+2. Build and run the Docker image:
     ```text
     hint: make user of Taskfile.yml
     ```
-    ```bash
-    task up
-    ```
-
-3. Run the container:
+   
    ```bash
    task up -- -v /path/to/your/crontab-config.json:/config/crontab-config.json
    ```
