@@ -18,7 +18,7 @@ tasks:
       CONTAINER_NAME: '{{.container | default "cronjobbed-rclone"}}'
     cmds:
       - docker build -t {{.IMAGE}} .
-      - docker run -d --name {{.CONTAINER_NAME}} {{.IMAGE}}
+      - docker run {{.CLI_ARGS}} -d --name {{.CONTAINER_NAME}} {{.IMAGE}}
 
   down:
     desc: Stop and remove services
@@ -50,6 +50,9 @@ tasks:
 
   recreate:
     desc: Force recreate services
+    vars:
+      IMAGE: '{{.image | default "cronjobbed-rclone"}}'
+      CONTAINER_NAME: '{{.container | default "cronjobbed-rclone"}}'
     cmds:
       - docker stop {{.CONTAINER_NAME}}
       - docker rm {{.CONTAINER_NAME}}
@@ -58,6 +61,8 @@ tasks:
 
   logs:
     desc: Show logs
+    vars:
+      CONTAINER_NAME: '{{.container | default "cronjobbed-rclone"}}'
     cmds:
       - docker logs -f {{.CONTAINER_NAME}}
 

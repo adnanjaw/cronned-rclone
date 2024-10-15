@@ -1,12 +1,14 @@
 {
-  "cron_jobs": [
+  "cronjobs": [
     {
-      "schedule": "1/1 * * * *",
-      "task": "echo i love you"
+      "schedule": "* * * * *",
+      "command": "echo hey",
+      "log_file": "/var/log/cron_setup.log"
     },
     {
       "schedule": "* * * * *",
-      "task": "echo i work very wel..."
+      "command": "echo bay",
+      "log_file": "/var/log/cron_setup.log"
     }
   ]
 }
