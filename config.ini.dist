@@ -1,0 +1,20 @@
+[job-exec "job-executed-on-running-container"]
+schedule = @hourly
+container = my-container
+command = touch /tmp/example
+
+[job-run "job-executed-on-new-container"]
+schedule = @hourly
+image = ubuntu:latest
+command = touch /tmp/example
+
+[job-local "job-executed-on-current-host"]
+schedule = @hourly
+command = touch /tmp/example
+
+
+[job-service-run "service-executed-on-new-container"]
+schedule = 0,20,40 * * * *
+image = ubuntu
+network = swarm_network
+command =  touch /tmp/example

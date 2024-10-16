@@ -1,4 +1,2 @@
 .idea
-.env
-files
-crontab-config.json
+config.ini

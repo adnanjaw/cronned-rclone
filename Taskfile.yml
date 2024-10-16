@@ -14,8 +14,8 @@ tasks:
   up:
     desc: Start and build services
     vars:
-      IMAGE: '{{.image | default "croned-rclone"}}'
-      CONTAINER_NAME: '{{.container | default "croned-rclone"}}'
+      IMAGE: '{{.image | default "cronned-rclone"}}'
+      CONTAINER_NAME: '{{.container | default "cronned-rclone"}}'
     cmds:
       - docker build -t {{.IMAGE}} .
       - docker run {{.CLI_ARGS}} -d --name {{.CONTAINER_NAME}} {{.IMAGE}}
@@ -23,7 +23,7 @@ tasks:
   down:
     desc: Stop and remove services
     vars:
-      CONTAINER_NAME: '{{.container | default "croned-rclone"}}'
+      CONTAINER_NAME: '{{.container | default "cronned-rclone"}}'
     cmds:
       - docker stop {{.CONTAINER_NAME}}
       - docker rm {{.CONTAINER_NAME}}
@@ -51,8 +51,8 @@ tasks:
   recreate:
     desc: Force recreate services
     vars:
-      IMAGE: '{{.image | default "croned-rclone"}}'
-      CONTAINER_NAME: '{{.container | default "croned-rclone"}}'
+      IMAGE: '{{.image | default "cronned-rclone"}}'
+      CONTAINER_NAME: '{{.container | default "cronned-rclone"}}'
     cmds:
       - docker stop {{.CONTAINER_NAME}}
       - docker rm {{.CONTAINER_NAME}}
@@ -62,14 +62,14 @@ tasks:
   logs:
     desc: Show logs
     vars:
-      CONTAINER_NAME: '{{.container | default "croned-rclone"}}'
+      CONTAINER_NAME: '{{.container | default "cronned-rclone"}}'
     cmds:
       - docker logs -f {{.CONTAINER_NAME}}
 
   build-push:
     desc: Build & push Docker image
     vars:
-      IMAGE: '{{.image | default "adnanjaw/croned-rclone"}}'
+      IMAGE: '{{.image | default "adnanjaw/cronned-rclone"}}'
       TAG: '{{.t | default "latest"}}'
     cmds:
       - docker login
