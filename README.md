@@ -1,4 +1,4 @@
-# Croned-rclone
+# Croned-rclone [![Build and push croned-rclone Image](https://github.com/adnanjaw/croned-rclone/actions/workflows/docker.yml/badge.svg)](https://github.com/adnanjaw/croned-rclone/actions/workflows/docker.yml)
 
 A lightweight container tool that wraps Rclone with cron jobs.  
 Schedule Rclone commands using a simple JSON or YAML configuration file while still using all standard Rclone commands and documentation.
