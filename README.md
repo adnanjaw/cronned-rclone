@@ -1,4 +1,4 @@
-# Cronned-rclone
+# Cronned-rclone [![Build and push croned-rclone Image](https://github.com/adnanjaw/croned-rclone/actions/workflows/docker.yml/badge.svg)](https://github.com/adnanjaw/croned-rclone/actions/workflows/docker.yml)
 
 A lightweight container tool that wraps Rclone with cron jobs using Ofelia.
 Easily schedule Rclone commands with flexible cron expressions via INI-style configurations or Docker labels, while still utilizing all standard Rclone commands.
