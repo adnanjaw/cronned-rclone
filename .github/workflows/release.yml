@@ -37,7 +37,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          platforms: ${{ env.SUPPORTED_PLATFORMS }}
           load: true  # Load the image locally to test it
           tags: ${{ env.IMAGE_TAG }}:${{ env.LATEST_TAG }}
 
