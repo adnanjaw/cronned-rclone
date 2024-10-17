@@ -53,11 +53,6 @@ jobs:
             exit 1  # Fail the job
           fi
 
-          # Stop and remove the container
-          docker stop cronned-rclone
-          docker rm cronned-rclon
-
-
       - name: Test Rclone Version
         run: |
           docker run --rm ${{ env.DOCKER_IMAGE_TAG }} rclone version
