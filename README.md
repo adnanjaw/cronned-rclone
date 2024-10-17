@@ -1,4 +1,4 @@
-# Cronned-rclone [![Test cronned-rclone](https://github.com/adnanjaw/cronned-rclone/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/adnanjaw/cronned-rclone/actions/workflows/test.yml) | [![Release cronned-rclone](https://github.com/adnanjaw/cronned-rclone/actions/workflows/release.yml/badge.svg?branch=master)](https://github.com/adnanjaw/cronned-rclone/actions/workflows/release.yml)
+# Cronned-rclone [![Test cronned-rclone](https://github.com/adnanjaw/cronned-rclone/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/adnanjaw/cronned-rclone/actions/workflows/test.yml) | [![Release cronned-rclone](https://github.com/adnanjaw/cronned-rclone/actions/workflows/release.yml/badge.svg)](https://github.com/adnanjaw/cronned-rclone/actions/workflows/release.yml)
 
 A lightweight container tool that wraps Rclone with cron jobs using Ofelia. Easily schedule Rclone commands with flexible cron expressions via INI-style configurations or Docker labels, while utilizing all standard Rclone commands.
 
