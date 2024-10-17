@@ -28,17 +28,16 @@ jobs:
           push: false
           tags: '${{ env.DOCKER_IMAGE_TAG }}'
 
-      - name: Test Ofelia (without config mount)
-        run: |
-          docker run --rm ${{ env.DOCKER_IMAGE_TAG }} ofelia version
-
-      - name: Test Ofelia (with config mount)
+      - name: Test Image
         run: |
           # Create a dummy ofelia config file for testing
-          echo "[job-exec \"example\"]\nschedule = \"@every 5m\"\ncommand = \"/bin/echo Hello Ofelia\"" > ofelia.ini
-          docker run --rm -v $PWD/ofelia.ini:/config/ofelia.ini$ ${{ env.DOCKER_IMAGE_TAG }}
+          echo "[job-exec \"example\"]\nschedule = \"@every 10s\"\ncommand = \"/bin/echo Hello Ofelia\"" > ofelia.ini
+          docker run --name cronned-rclone \
+                -v /var/run/docker.sock:/var/run/docker.sock:ro \
+                -v -v $PWD/ofelia.ini:/config/ofelia.ini \
+                ${{ env.DOCKER_IMAGE_TAG }}
 
-      - name: Test Rclone (without config mount)
+      - name: Test Rclone Version
         run: |
           docker run --rm ${{ env.DOCKER_IMAGE_TAG }} rclone version
 
