@@ -8,7 +8,6 @@ on:
 env:
   BWS_DOCKERHUB_USERNAME: ebf9ede7-b7eb-422f-a590-b16c014a70a3
   BWS_DOCKERHUB_TOKEN: 0fa21e12-63ae-4793-a9a5-b16c014aa15d
-  SUPPORTED_PLATFORMS: 'linux/amd64, linux/arm64, linux/arm/v7'
   IMAGE_TAG: adnanjaw/cronned-rclone
   LATEST_TAG: 'latest'
 
@@ -65,7 +64,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          platforms: ${{ env.SUPPORTED_PLATFORMS }}
           push: true
           tags: ${{ env.IMAGE_TAG }}:${{ env.LATEST_TAG }}
 
@@ -74,6 +72,5 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          platforms: ${{ env.SUPPORTED_PLATFORMS }}
           push: true
           tags: ${{ env.IMAGE_TAG }}:${{ github.ref_name }}
