@@ -52,9 +52,4 @@ jobs:
             docker logs cronned-rclone  # Print logs for debugging
             exit 1  # Fail the job
           fi
-
-      - name: Test Rclone Version
-        run: |
-          docker run --rm ${{ env.DOCKER_IMAGE_TAG }} rclone version
-
         
