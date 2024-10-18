@@ -20,6 +20,13 @@ tasks:
       - docker build -t {{.IMAGE}} .
       - docker run {{.CLI_ARGS}} -d --name {{.CONTAINER_NAME}} {{.IMAGE}}
 
+  build:
+    desc: Build Image
+    vars:
+      IMAGE: '{{.image | default "cronned-rclone"}}'
+    cmds:
+      - docker build -t {{.IMAGE}} .
+
   down:
     desc: Stop and remove services
     vars:

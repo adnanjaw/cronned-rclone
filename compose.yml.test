@@ -1,0 +1,17 @@
+services:
+  cronned-rclone:
+    build:
+      context: .
+    container_name: cronned-rclone-test
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./config.ini:/config/ofelia.ini
+      - ./config.conf:/config/rclone/rclone.conf
+    command: >
+      daemon --config=/config/ofelia.ini &&
+    networks:
+      - rclone
+    restart: unless-stopped
+
+networks:
+  rclone:

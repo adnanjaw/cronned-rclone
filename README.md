@@ -1,10 +1,12 @@
 # Cronned-rclone [![Test cronned-rclone](https://github.com/adnanjaw/cronned-rclone/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/adnanjaw/cronned-rclone/actions/workflows/test.yml) | [![Release cronned-rclone](https://github.com/adnanjaw/cronned-rclone/actions/workflows/release.yml/badge.svg)](https://github.com/adnanjaw/cronned-rclone/actions/workflows/release.yml)
 
-A lightweight container tool that wraps Rclone with cron jobs using Ofelia. Easily schedule Rclone commands with flexible cron expressions via INI-style configurations or Docker labels, while utilizing all standard Rclone commands.
+A lightweight container tool that wraps Rclone with cron jobs using Ofelia. Easily schedule Rclone commands with
+flexible cron expressions via INI-style configurations or Docker labels, while utilizing all standard Rclone commands.
 
 ## Features
 
-- **Rclone Integration**: Leverage the powerful [Rclone](https://rclone.org/) for cloud operations (sync, copy, move, etc.).
+- **Rclone Integration**: Leverage the powerful [Rclone](https://rclone.org/) for cloud operations (sync, copy, move,
+  etc.).
 - **Ofelia Scheduler**: Schedule tasks easily with [Ofelia](https://github.com/mcuadros/ofelia) and cron jobs.
 
 ---
@@ -14,7 +16,8 @@ A lightweight container tool that wraps Rclone with cron jobs using Ofelia. Easi
 Before you begin, ensure you have the following installed on your system:
 
 - [Docker](https://docs.docker.com/get-docker/)
-- A basic understanding of [Rclone](https://rclone.org/) and cron job scheduling using [Ofelia](https://github.com/mcuadros/ofelia).
+- A basic understanding of [Rclone](https://rclone.org/) and cron job scheduling
+  using [Ofelia](https://github.com/mcuadros/ofelia).
 
 ---
 
@@ -22,7 +25,8 @@ Before you begin, ensure you have the following installed on your system:
 
 ### 1. Create a Configuration File
 
-Define your cron jobs using a configuration file (e.g., `config.ini`). Refer to the [Ofelia documentation](https://github.com/mcuadros/ofelia) for more details on available parameters.
+Define your cron jobs using a configuration file (e.g., `config.ini`). Refer to
+the [Ofelia documentation](https://github.com/mcuadros/ofelia) for more details on available parameters.
 
 #### Example `config.ini`:
 
@@ -69,7 +73,8 @@ slack-only-on-error = true
 
 ### 2. Run the Container
 
-After preparing your configuration file, run the `cronned-rclone` Docker container. Ensure your config file is accessible at the root of your project (e.g., `/project`).
+After preparing your configuration file, run the `cronned-rclone` Docker container. Ensure your config file is
+accessible at the root of your project (e.g., `/project`).
 
 ```bash
 docker run --name cronned-rclone \
@@ -79,6 +84,13 @@ docker run --name cronned-rclone \
   -v /path/to/your/rclone/logs:/logs \
   -v /path/to/your/rclone/data:/data \
   adnanjaw/cronned-rclone:latest
+  daemon --config=/config/ofelia.ini
+```
+
+Incase you are using Ofelia labels you can add this command at the end of your docker run or in docker compose `command`
+
+```bash
+ daemon --docker
 ```
 
 #### Run with Docker Compose
@@ -87,20 +99,23 @@ To run the container using Docker Compose, create a `docker-compose.yml` file:
 
 ```yaml
 services:
-   cronned-rclone:
-      image: 'adnanjaw/cronned-rclone:latest'
-      volumes:
-         - /var/run/docker.sock:/var/run/docker.sock:ro
-         - /path/to/ofelia/config.ini:/config/ofelia.ini
-         - /path/to/your/rclone/data:/data
-         - /path/to/your/rclone/logs:/logs
-         - /path/to/your/rclone/config:/config/rclone
-      container_name: cronned-rclone
+  cronned-rclone:
+    image: 'adnanjaw/cronned-rclone:latest'
+    command: daemon --config=/config/ofelia.ini
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /path/to/ofelia/config.ini:/config/ofelia.ini
+      - /path/to/your/rclone/data:/data
+      - /path/to/your/rclone/logs:/logs
+      - /path/to/your/rclone/config:/config/rclone
+    container_name: cronned-rclone
 ```
 
 ### 3. Verify Cron Jobs
 
-The cron jobs will execute according to the schedule specified in your configuration file. Logs will be saved in the respective log files you specify in the configuration, or you can receive notifications via Slack or email based on your setup.
+The cron jobs will execute according to the schedule specified in your configuration file. Logs will be saved in the
+respective log files you specify in the configuration, or you can receive notifications via Slack or email based on your
+setup.
 
 ---
 
@@ -115,10 +130,11 @@ If you want to modify the Docker image or build it locally, follow these steps:
 
 2. Build and run the Docker image using Taskfile:
    ```bash
-   task up -- 
-   -v /var/run/docker.sock:/var/run/docker.sock:ro \
-   -v /path/to/ofelia/config.ini:/config/ofelia.ini \
-   -v /path/to/your/rclone/config:/config/rclone
+   docker run --name cronned-rclone \
+      -v /var/run/docker.sock:/var/run/docker.sock:ro \
+      -v ./config.ini:/config/ofelia.ini \
+      -v ./config.conf:/config/rclone \
+      cronned-rclone daemon --config=/config/ofelia.ini
    ```
 
 ---
