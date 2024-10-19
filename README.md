@@ -87,7 +87,7 @@ docker run --name cronned-rclone \
   daemon --config=/config/ofelia.ini
 ```
 
-Incase you are using Ofelia labels you can add this command at the end of your docker run or in docker compose `command`
+In case you are using Ofelia labels, you can add this command at the end of your Docker run or Docker Compose command.
 
 ```bash
  daemon --docker
