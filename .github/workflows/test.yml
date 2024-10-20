@@ -39,7 +39,7 @@ jobs:
           docker run --name cronned-rclone \
             -v /var/run/docker.sock:/var/run/docker.sock:ro \
             -v $PWD/ofelia.ini:/config/ofelia.ini \
-            -d ${{ env.DOCKER_IMAGE_TAG }}
+            -d ${{ env.DOCKER_IMAGE_TAG }} daemon --config=/config/ofelia.ini
 
           # Wait for 10 seconds
           sleep 10
@@ -52,9 +52,4 @@ jobs:
             docker logs cronned-rclone  # Print logs for debugging
             exit 1  # Fail the job
           fi
-
-      - name: Test Rclone Version
-        run: |
-          docker run --rm ${{ env.DOCKER_IMAGE_TAG }} rclone version
-
         

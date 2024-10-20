@@ -1,2 +1,4 @@
 .idea
 config.ini
+docker-compose.yml
+compose.yml
