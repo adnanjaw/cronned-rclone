@@ -12,6 +12,6 @@ COPY --from=rclone /usr/local/bin/rclone /usr/local/bin/rclone
 
 RUN mkdir -p /config/rclone
 
-ENV RCLONE_CONFIG=/config/rclone
+ENV RCLONE_CONFIG=/config/rclone/rclone.conf
 
 ENTRYPOINT ["/usr/local/bin/ofelia"]
