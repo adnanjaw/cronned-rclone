@@ -32,7 +32,7 @@ jobs:
         run: |
           # Create a dummy ofelia config file for testing
           echo '[job-exec "example"]' > ofelia.ini
-          echo 'schedule = "@every 10s"' >> ofelia.ini
+          echo 'schedule = "@every 2s"' >> ofelia.ini
           echo 'command = "/bin/echo Hello Ofelia"' >> ofelia.ini
           
           # Run the container in detached mode
@@ -41,8 +41,8 @@ jobs:
             -v $PWD/ofelia.ini:/config/ofelia.ini \
             -d ${{ env.DOCKER_IMAGE_TAG }} daemon --config=/config/ofelia.ini
 
-          # Wait for 10 seconds
-          sleep 10
+          # Wait for 3 seconds
+          sleep 3
 
           # Check logs for "Hello Ofelia"
           if docker logs cronned-rclone | grep -q "Hello Ofelia"; then
@@ -53,3 +53,28 @@ jobs:
             exit 1  # Fail the job
           fi
         
+      - name: Test Ofelia (with labels)
+        run: |
+          # Run the container in detached mode
+          docker run --name cronned-rclone-with-labels \
+          -v /var/run/docker.sock:/var/run/docker.sock:ro \
+          -v ${PWD}/rclone/rclone.conf:/config/rclone/rclone.conf \
+          -v ${PWD}/rclone/logs:/logs \
+          -v ${PWD}/rclone/data:/data \
+          -v ${PWD}/test.txt:/tmp/test.txt \
+          --label ofelia.enabled=true \
+          --label ofelia.job-local.example.schedule="@every 2s" \
+          --label ofelia.job-local.example.command="/bin/echo 'Hello Ofelia'" \
+          -d ${{ env.DOCKER_IMAGE_TAG }} daemon --docker
+
+          # Wait for 3 seconds
+          sleep 3
+
+          # Check logs for "Hello Ofelia"
+          if docker logs cronned-rclone | grep -q "Hello Ofelia"; then
+            echo "Output found: Hello Ofelia"
+          else
+            echo "Expected output not found"
+            docker logs cronned-rclone  # Print logs for debugging
+            exit 1  # Fail the job
+          fi

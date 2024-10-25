@@ -6,6 +6,10 @@ FROM alpine:latest
 
 LABEL maintainer="github.com/adnanjaw"
 
+# this label is required to identify container with ofelia running
+LABEL ofelia.service=true
+LABEL ofelia.enabled=true
+
 COPY --from=ofelia /usr/bin/ofelia /usr/local/bin/ofelia
 
 COPY --from=rclone /usr/local/bin/rclone /usr/local/bin/rclone

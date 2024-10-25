@@ -73,42 +73,69 @@ slack-only-on-error = true
 
 ### 2. Run the Container
 
-After preparing your configuration file, run the `cronned-rclone` Docker container. Ensure your config file is
-accessible at the root of your project (e.g., `/project`).
+After preparing your configuration file, run the `cronned-rclone` Docker container.
 
 ```bash
 docker run --name cronned-rclone \
   -v /var/run/docker.sock:/var/run/docker.sock:ro \
-  -v /path/to/ofelia/config.ini:/config/ofelia.ini \
-  -v /path/to/your/rclone/config:/config/rclone \
-  -v /path/to/your/rclone/logs:/logs \
-  -v /path/to/your/rclone/data:/data \
-  adnanjaw/cronned-rclone:latest
-  daemon --config=/config/ofelia.ini
+  -v ${PWD}/ofelia/config.ini:/config/ofelia.ini \
+  -v ${PWD}/rclone/rclone.conf:/config/rclone/rclone.conf \
+  -v ${PWD}/rclone/logs:/logs \
+  -v ${PWD}/rclone/data:/data \
+  adnanjaw/cronned-rclone:latest daemon --config=/config/ofelia.ini
 ```
+
+#### Labels
 
 In case you are using Ofelia labels, you can add this command at the end of your Docker run or Docker Compose command.
 
 ```bash
- daemon --docker
+docker run --name cronned-rclone \
+  -v /var/run/docker.sock:/var/run/docker.sock:ro \
+  -v ${PWD}/rclone/rclone.conf:/config/rclone/rclone.conf \
+  -v ${PWD}/rclone/logs:/logs \
+  -v ${PWD}/rclone/data:/data \
+  -v ${PWD}/test.txt:/tmp/test.txt \
+  --label ofelia.enabled=true \
+  --label ofelia.job-local.upload-file.schedule="@every 60s" \
+  --label ofelia.job-local.upload-file.command="rclone copy /tmp/test.txt s3:/bucket/directory" \
+  adnanjaw/cronned-rclone:latest daemon --docker
 ```
 
 #### Run with Docker Compose
 
-To run the container using Docker Compose, create a `docker-compose.yml` file:
+To run the container using Docker Compose, create a `compose.yaml` file:
 
 ```yaml
 services:
   cronned-rclone:
-    image: 'adnanjaw/cronned-rclone:latest'
+    image: adnanjaw/cronned-rclone:latest
     command: daemon --config=/config/ofelia.ini
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /path/to/ofelia/config.ini:/config/ofelia.ini
-      - /path/to/your/rclone/data:/data
-      - /path/to/your/rclone/logs:/logs
-      - /path/to/your/rclone/config:/config/rclone
-    container_name: cronned-rclone
+      - ./ofelia/config.ini:/config/ofelia.ini
+      - ./rclone/data:/data
+      - ./rclone/logs:/logs
+      - ./rclone/config:/config/rclone
+```
+
+#### Labels
+
+```yaml
+services:
+  cronned-rclone:
+    image: adnanjaw/cronned-rclone:latest
+    command: daemon --docker
+    labels:
+      ofelia.enabled: true
+      ofelia.job-local.upload-file.schedule: "@every 60s"
+      ofelia.job-local.upload-file.command: "rclone copy /tmp/test.txt s3:/bucket/directory"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./rclone/data:/data
+      - ./rclone/logs:/logs
+      - ./rclone/config:/config/rclone
+      - ./test.txt:/tmp/test.txt
 ```
 
 ### 3. Verify Cron Jobs
