@@ -32,7 +32,7 @@ jobs:
         run: |
           # Create a dummy ofelia config file for testing
           echo '[job-exec "example"]' > ofelia.ini
-          echo 'schedule = "@every 10s"' >> ofelia.ini
+          echo 'schedule = "@every 2s"' >> ofelia.ini
           echo 'command = "/bin/echo Hello Ofelia"' >> ofelia.ini
           
           # Run the container in detached mode
@@ -41,8 +41,8 @@ jobs:
             -v $PWD/ofelia.ini:/config/ofelia.ini \
             -d ${{ env.DOCKER_IMAGE_TAG }} daemon --config=/config/ofelia.ini
 
-          # Wait for 10 seconds
-          sleep 10
+          # Wait for 3 seconds
+          sleep 3
 
           # Check logs for "Hello Ofelia"
           if docker logs cronned-rclone | grep -q "Hello Ofelia"; then
@@ -68,7 +68,7 @@ jobs:
           -d ${{ env.DOCKER_IMAGE_TAG }} daemon --docker
 
           # Wait for 3 seconds
-          sleep 10
+          sleep 3
 
           # Check logs for "Hello Ofelia"
           if docker logs cronned-rclone | grep -q "Hello Ofelia"; then
