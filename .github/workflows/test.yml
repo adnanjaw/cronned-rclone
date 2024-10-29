@@ -1,4 +1,4 @@
-name: Test cronned-rclone
+name: Testing
 
 on:
   push:

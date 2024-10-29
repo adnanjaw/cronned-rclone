@@ -85,3 +85,15 @@ tasks:
       - docker image tag {{.IMAGE}} {{.IMAGE}}:{{.TAG}}
       - docker push {{.IMAGE}}:{{.TAG}}
       - printf "\033[32m%s\033[0m\n" "Built and pushed image '{{.IMAGE}}:{{.TAG}}'"
+
+  mkdocs:
+    desc: MkDocs build
+    cmds:
+      - docker run --rm -it -v ${PWD}:/docs ghcr.io/squidfunk/mkdocs-material:9.5 build
+
+  mkdocs:live:
+    desc: MkDocs development server
+    vars:
+      PORT: '{{.p | default "8001"}}'
+    cmds:
+      - docker run --rm -it -p {{.PORT}}:8000 -v ${PWD}:/docs ghcr.io/squidfunk/mkdocs-material:9.5

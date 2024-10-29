@@ -1,0 +1,74 @@
+site_name: Cronned-rclone
+site_description: A lightweight container tool that wraps Rclone with cron jobs using Ofelia.
+repo_name: adnanjaw/cronned-rclone
+repo_url: https://github.com/adnanjaw/cronned-rclone
+docs_dir: docs/
+site_dir: site/
+plugins:
+  - search:
+      separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
+  - minify:
+      minify_html: true
+theme:
+  name: material
+  icon:
+    repo: fontawesome/brands/github
+  font: false
+  features:
+    - navigation.footer
+    - navigation.indexes
+    - navigation.sections
+    - toc.follow
+    - navigation.top
+    - content.code.copy
+    - content.code.annotate
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: black
+      accent: red
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+markdown_extensions:
+  - abbr:
+  - tables:
+  - toc:
+  - admonition:
+  - footnotes:
+  - attr_list:
+  - pymdownx.details:
+  - pymdownx.extra:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      use_pygments: false
+  - pymdownx.inlinehilite:
+  - pymdownx.snippets:
+  - admonition:
+  - pymdownx.superfences:
+  - pymdownx.mark:
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+extra_javascript:
+  - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js
+  - js/highlight.js
+extra_css:
+  - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/tokyo-night-dark.min.css
+  - css/custom.css
+extra:
+  generator: false
+nav:
+  - About: index.md
+  - Prerequisites: prerequisites.md
+  - Usage: usage.md
+  - Contributing: contributing.md
+copyright: |
+  &copy; 2023 <a href="https://github.com/adnanjaw"  target="_blank" rel="noopener">adnanjaw</a>

@@ -1,4 +1,4 @@
-name: Release cronned-rclone
+name: Release
 
 on:
   push:
