@@ -5,9 +5,9 @@
 Define your cron jobs using a configuration file (e.g., `config.ini`). Refer to
 the [Ofelia documentation](https://github.com/mcuadros/ofelia) for more details on available parameters.
 
-### - Example `config.ini`
-
 ```ini
+#### config.ini ####
+
 ### Jobs Reference Documentation: https://github.com/mcuadros/ofelia/blob/master/docs/jobs.md ###
 [job-exec "job-executed-on-running-container"]
 schedule = @hourly
@@ -52,6 +52,10 @@ slack-only-on-error = true
 
 After preparing your configuration file, run the `cronned-rclone` Docker container.
 
+### Docker run command using config
+
+In case you are using Ofelia config.ini.
+
 ```bash
 docker run --name cronned-rclone \
   -v /var/run/docker.sock:/var/run/docker.sock:ro \
@@ -62,9 +66,9 @@ docker run --name cronned-rclone \
   adnanjaw/cronned-rclone:latest daemon --config=/config/ofelia.ini
 ```
 
-### - Labels
+### Docker run command using labels
 
-In case you are using Ofelia labels, you can add this command at the end of your Docker run or Docker Compose command.
+In case you are using Ofelia labels.
 
 ```bash
 docker run --name cronned-rclone \
@@ -79,7 +83,7 @@ docker run --name cronned-rclone \
   adnanjaw/cronned-rclone:latest daemon --docker
 ```
 
-### - Run with Docker Compose
+### Run with Docker Compose using config.ini
 
 To run the container using Docker Compose, create a `compose.yaml` file:
 
@@ -96,7 +100,7 @@ services:
       - ./rclone/config:/config/rclone
 ```
 
-### - Labels
+### Run with Docker Compose using labels
 
 ```yaml
 services:
