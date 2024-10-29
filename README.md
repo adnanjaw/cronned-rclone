@@ -1,15 +1,21 @@
-# IP Whitelist on Hetzner Firewall 🚀
+# cronned-rclone
 
-## Documentation 📚
+[![Test image](https://github.com/adnanjaw/cronned-rclone/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/adnanjaw/cronned-rclone/actions/workflows/test.yml)
+[![Release image](https://github.com/adnanjaw/cronned-rclone/actions/workflows/release.yml/badge.svg)](https://github.com/adnanjaw/cronned-rclone/actions/workflows/release.yml)
 
-The documentation for the IP Whitelist on Hetzner Firewall GitHub Action is available at [GitHub Pages](https://adnanjaw.github.io/ip-whitelist-on-hetznerfw).
+## Documentation
+
+The documentation is available at [https://github.com/adnanjaw/cronned-rclone](https://adnanjaw.github.io/cronned-rclone).
 
 ---
 
-## License 📜
+## License
 
 This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for more details.
 
 ---
 
-Feel free to contribute and improve the action! 🌟
+## Credits
+
+- [Rclone](https://rclone.org/) for the amazing tool to manage cloud storage.
+- [Ofelia](https://github.com/mcuadros/ofelia) for cron job scheduling.
