@@ -1,74 +1,152 @@
 site_name: Cronned-rclone
-site_description: A lightweight container tool that wraps Rclone with cron jobs using Ofelia.
+site_url: https://adnanjaw.github.io/cronned-rclone
+site_dir: site/
+docs_dir: docs/
+site_author: Adnan Al Jawabra
+site_description: >-
+  A lightweight container tool that wraps Rclone with cron jobs using Ofelia.
+
+# Repository
 repo_name: adnanjaw/cronned-rclone
 repo_url: https://github.com/adnanjaw/cronned-rclone
-docs_dir: docs/
-site_dir: site/
-plugins:
-  - search:
-      separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
-  - minify:
-      minify_html: true
+
+# Copyright
+copyright: |
+  &copy; 2024 <a href="https://github.com/adnanjaw"  target="_blank" rel="noopener">adnanjaw</a>
+
+# Configuration
 theme:
   name: material
-  icon:
-    repo: fontawesome/brands/github
-  font: false
   features:
+    - announce.dismiss
+    - content.action.edit
+    - content.action.view
+    - content.code.annotate
+    - content.code.copy
+    - content.code.select
+    - content.footnote.tooltips
+    - content.tabs.link
+    - content.tooltips
+    - header.autohide
+    # - navigation.expand
     - navigation.footer
     - navigation.indexes
+    # - navigation.instant
+    # - navigation.instant.prefetch
+    # - navigation.instant.progress
+    # - navigation.prune
     - navigation.sections
-    - toc.follow
+    # - navigation.tabs
+    # - navigation.tabs.sticky
     - navigation.top
-    - content.code.copy
-    - content.code.annotate
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+    # - toc.integrate
   palette:
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/link
+        name: Switch to light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: black
-      accent: red
+      primary: indigo
+      accent: indigo
       toggle:
-        icon: material/weather-sunny
+        icon: material/toggle-switch
         name: Switch to dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
+      primary: black
+      accent: indigo
       toggle:
-        icon: material/weather-night
-        name: Switch to light mode
-markdown_extensions:
-  - abbr:
-  - tables:
-  - toc:
-  - admonition:
-  - footnotes:
-  - attr_list:
-  - pymdownx.details:
-  - pymdownx.extra:
-  - pymdownx.highlight:
-      anchor_linenums: true
-      use_pygments: false
-  - pymdownx.inlinehilite:
-  - pymdownx.snippets:
-  - admonition:
-  - pymdownx.superfences:
-  - pymdownx.mark:
-  - pymdownx.arithmatex:
-      generic: true
-  - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
-extra_javascript:
-  - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js
-  - js/highlight.js
-extra_css:
-  - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/tokyo-night-dark.min.css
-  - css/custom.css
+        icon: material/toggle-switch-off
+        name: Switch to system preference
+  font:
+    text: Roboto
+    code: Roboto Mono
+  icon:
+    logo: logo
+
+# Plugins
+plugins:
+  - search:
+      separator: '[\s\u200b\-_,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
+  - minify:
+      minify_html: true
+
+# Additional configuration
 extra:
   generator: false
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/adnanjaw
+    - icon: fontawesome/solid/link
+      link: https://github.com/marketplace/actions/ip-whitelist-on-hetznerfw
+
+# Extensions
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      normalize_issue_symbols: true
+      repo_url_shorthand: true
+      user: adnanjaw
+      repo: ip-whitelist-on-hetznerfw
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets:
+      auto_append:
+        - includes/mkdocs.md
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+      combine_header_slug: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+extra_javascript:
+  - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js
+extra_css:
+  - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/tokyo-night-dark.min.css
+
+#not_in_nav: |
+#  /tutorials/**/*.md
+
+# Page tree
 nav:
-  - About: index.md
+  - Home: index.md
   - Prerequisites: prerequisites.md
   - Usage: usage.md
   - Contributing: contributing.md
-copyright: |
-  &copy; 2023 <a href="https://github.com/adnanjaw"  target="_blank" rel="noopener">adnanjaw</a>
